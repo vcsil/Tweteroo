@@ -83,3 +83,19 @@ describe("Testa GET /tweets/:username", () => {
         expect(result.body).toStrictEqual([bodyTweet]);
     });
 });
+
+describe("Testa GET /tweets", () => {
+    it("Tenta receber todos tweets -> deve receber 200", async () => {
+        const result = await server.get("/tweets");
+
+        expect(result.status).toBe(200);
+        expect(result.body).toBeInstanceOf(Object);
+    });
+
+    it("Falha ao tentar receber todos tweets -> deve receber 200", async () => {
+        const result = await server.get("/tweets?page=-15");
+
+        expect(result.status).toBe(400);
+        expect(result.text).toBe("Informe uma página válida!");
+    });
+});
