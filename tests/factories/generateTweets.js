@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { tweets } from "../../src/app";
+import { tweets } from "../../src/repositories/tweetRepositories";
 
 export default class Tweet {
     constructor() {
