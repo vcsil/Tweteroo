@@ -1,13 +1,21 @@
-import cors from "cors";
 import express, { json } from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+
+dotenv.config();
 
 const app = express();
 
 app.use(cors());
 app.use(json());
 
-const usuarios = [];
-const tweets = [];
+const usuarios = [
+    {
+        username: "Teste",
+        avatar: "https://haieng.com/wp-content/uploads/2017/10/test-image-500x500-300x300.jpg",
+    },
+];
+export const tweets = [];
 
 app.post("/sign-up", (req, res) => {
     const { username, avatar } = req.body;
@@ -60,6 +68,19 @@ app.get("/tweets", (req, res) => {
     }
 
     res.status(200).send([...tweets].reverse().slice(start, end));
+});
+
+app.get("/tweetsreset", (req, res) => {
+    const MODE = String(process.env.MODE);
+
+    if (MODE === "DEV") {
+        while (tweets.length > 0) {
+            tweets.pop();
+        }
+        res.status(201).send("Todos tweets apagados");
+    } else {
+        res.status(400).send("Proibido garotinho");
+    }
 });
 
 function reverseTweets() {
